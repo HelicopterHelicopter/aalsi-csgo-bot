@@ -44,7 +44,7 @@ def get_matches(url):
 url = "https://liquipedia.net/counterstrike/api.php?action=parse&format=json&page=Liquipedia:Matches"
 
 
-notable_teams = ["Ninjas in Pyjamas","BIG","G2 Esports","Complexity Gaming","FaZe Clan","Team Liquid","OG","Astralis","Natus Vincere","Team Vitality"]
+notable_teams = ["Ninjas in Pyjamas","BIG","G2 Esports","Complexity Gaming","FaZe Clan","Team Liquid","OG","Astralis","Natus Vincere","Team Vitality","MOUZ"]
 
 def get_notable_matches(matches):
     imp_matchs = []
