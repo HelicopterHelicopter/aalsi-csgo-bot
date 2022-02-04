@@ -57,7 +57,25 @@ def get_notable_matches(matches):
 #def UTC_to_IST(DateTime):
 #    date_time_list = DateTime.split('-')
 
+def get_tournaments():
+    tournament_url = "https://liquipedia.net/counterstrike/api.php?action=parse&format=json&page=S-Tier_Tournaments"
+    headers = {'User-Agent':'DiscordDOTAbot/v1.0(jhljheel@gmail.com)'}
+    response = requests.get(tournament_url,headers=headers)
+    content = response.content
+    page_html = response.json()['parse']['text']['*']
+    soup = BeautifulSoup(page_html,"lxml")
+    tournament_allyears = soup.find_all('div',attrs={'class':'divTable table-full-width tournament-card'})
+    latest_year = tournament_allyears[0]
+    tournaments_html = latest_year.find_all('div',class_='divRow')
+    tournaments = []
+    for tournament in tournaments_html:
+        tournament_data = {}
+        tournament_data['name'] = tournament.find('div',attrs={'class':'divCell Tournament Header'}).find('b').get_text()
+        tournament_data['date'] = tournament.find('div',attrs={'class':'divCell EventDetails Date Header'}).get_text()
+        tournament_data['prizepool'] = tournament.find('div',attrs={'class':'divCell EventDetails Prize Header'}).get_text()
+        tournaments.append(tournament_data)
 
+    return tournaments
 
 
 @bot.event
@@ -85,6 +103,22 @@ async def match(ctx):
         embed.add_field(name=f"{team1} vs {team2}",value=f"Match starts at {match_time}.\n {tournament}")
 
     await ctx.send(embed=embed)
+    
 
+@bot.command()
+async def tournaments(ctx):
+    tournaments = get_tournaments()
+    embed = discord.Embed(title="Current Year CSGO tournament schedule")
+    embed.set_thumbnail(url="https://i.pinimg.com/originals/b1/02/24/b10224ae75edd5debd06c44662cbcb30.png")
+    embed.set_author(name="Aalsi CSGO bot", icon_url="https://cdn.discordapp.com/embed/avatars/0.png")
+    embed.set_footer(text="Only S-tier tournaments. Jai Aalsi CSGO")
+
+    for tournament in reversed(tournaments):
+        tournament_name = tournament['name']
+        date = tournament['date']
+        prizepool = tournament['prizepool']
+        embed.add_field(name=tournament_name,value=f"Dates- {date} with a prizepool of {prizepool}")
+
+    await ctx.send(embed=embed)
 
 bot.run(DISCORD_TOKEN)
