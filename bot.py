@@ -120,5 +120,10 @@ async def tournaments(ctx):
         embed.add_field(name=tournament_name,value=f"Dates- {date} with a prizepool of {prizepool}")
 
     await ctx.send(embed=embed)
+    
+@bot.command()
+async def helicopter(ctx):
+    await ctx.send("HELIKOPTER 🚁 HELIKOPTER 🚁 HELIKOPTER 🚁HELIKOPTER🚁 HELIKOPTER 🚁HELIKOPTER 🚁PARAKOFER 🚁HELIKOPTER🚁 HELIKOPTER 🚁HELIKOPTER🚁 HELIKOPTER 🚁 HELIKOPTER 🚁 HELIKOPTER 🚁 HELIKOPTER 🚁 HELIKOPTER 🚁 HELIKOPTER 🚁 HELIKOPTER 🚁 HELIKOPTER 🚁 HELIKOPTER")
+
 
 bot.run(DISCORD_TOKEN)
